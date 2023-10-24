@@ -77,15 +77,27 @@ elif [ "$PX4_SIMULATOR" = "gz" ] || [ "$(param show -q SIM_GZ_EN)" -eq "1" ]; th
 	# shellcheck disable=SC2153
 	if [ -z "${gz_world}" ] && [ -n "${PX4_GZ_WORLDS}" ] && [ -n "${PX4_GZ_WORLD}" ]; then
 
-		echo "INFO  [init] starting gazebo with world: ${PX4_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf"
+		if [ -n "${CUSTOM_GZ_WORLDS}" ] && [ -n "${CUSTOM_GZ_WORLD}" ]; then
+			echo "INFO  [init] starting gazebo with world: ${CUSTOM_GZ_WORLDS}/${CUSTOM_GZ_WORLD}.sdf"
+			PX4_GZ_WORLD="${CUSTOM_GZ_WORLD}"
 
-		${gz_command} ${gz_sub_command} --verbose=1 -r -s "${PX4_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf" &
+			${gz_command} ${gz_sub_command} --verbose=1 -r -s "${CUSTOM_GZ_WORLDS}/${CUSTOM_GZ_WORLD}.sdf" &
 
-		if [ -z "${HEADLESS}" ]; then
-			# HEADLESS not set, starting gui
-			${gz_command} ${gz_sub_command} -g &
+			if [ -z "${HEADLESS}" ]; then
+				# HEADLESS not set, starting gui
+				${gz_command} ${gz_sub_command} -g &
+			fi
+
+		else
+			cho "INFO  [init] starting gazebo with world: ${PX4_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf"
+
+			${gz_command} ${gz_sub_command} --verbose=1 -r -s "${PX4_GZ_WORLDS}/${PX4_GZ_WORLD}.sdf" &
+
+			if [ -z "${HEADLESS}" ]; then
+				# HEADLESS not set, starting gui
+				${gz_command} ${gz_sub_command} -g &
+			fi
 		fi
-
 	else
 		echo "INFO  [init] gazebo already running world: ${gz_world}"
 		PX4_GZ_WORLD=${gz_world}
