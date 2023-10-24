@@ -2,7 +2,7 @@
 
 export PX4_GZ_MODELS=@PX4_SOURCE_DIR@/Tools/simulation/gz/models
 export PX4_GZ_WORLDS=@PX4_SOURCE_DIR@/Tools/simulation/gz/worlds
-export CUSTOM_GZ_MODELS=/home/nolan/FireResponseDrone/sim/Models
-export CUSTOM_GZ_WORLDS=/home/nolan/FireResponseDrone/sim/Worlds
+export CUSTOM_GZ_MODELS=@PX4_SOURCE_DIR@/../sim/Models
+export CUSTOM_GZ_WORLDS=@PX4_SOURCE_DIR@/../sim/Worlds
 
 export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$PX4_GZ_MODELS:$PX4_GZ_WORLDS:$CUSTOM_GZ_MODELS:$CUSTOM_GZ_WORLDS
